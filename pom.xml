@@ -3,47 +3,15 @@
   <groupId>com.webpagebytes.cms</groupId>
   <artifactId>webpagebytes-cms</artifactId>
   <version>1.3-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
 
-  <name>webpagebytes-cms</name>
-  <description>A Java based CMS library for dynamic content.</description>
-  <url>http://www.webpagebytes.com</url>
-  <licenses>
-    <license>
-        <name>The Apache License, Version 2.0</name>
-        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-  <developers>
-    <developer>
-      <name>MariusB</name>
-      <email>admin@webpagebytes.com</email>
-      <organization>Webpagebytes</organization>
-      <organizationUrl>http://www.webpagebytes.com</organizationUrl>
-    </developer>
-  </developers>  
-  <scm>
-    <connection>scm:git:ssh://git@github.com/webpagebytes/cms.git</connection>
-  	<developerConnection>scm:git:ssh://git@github.com/webpagebytes/cms.git</developerConnection>
-    <url>git@github.com/webpagebytes/cms.git</url>
-    <tag>HEAD</tag>
-  </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <cobertura.version>2.6</cobertura.version>
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd-HH-mm-ss</maven.build.timestamp.format>
   </properties>
-  <distributionManagement>
-     <repository>
-        <id>ossrh</id>
-        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-     </repository>
-     <snapshotRepository>
-        <id>ossrh</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-     </snapshotRepository>
-  </distributionManagement>       
+
   <dependencies> 
     <dependency>
         <groupId>junit</groupId>
@@ -101,7 +69,28 @@
 	    <artifactId>commons-fileupload</artifactId>
 	    <version>1.2</version>
 	</dependency>
-    
+        <dependency>
+        <groupId>commons-dbcp</groupId>
+        <artifactId>commons-dbcp</artifactId>
+        <version>1.4</version>
+    </dependency>
+    <dependency>
+		<groupId>net.spy</groupId>
+		<artifactId>spymemcached</artifactId>
+		<version>2.11.7</version>
+	</dependency>   
+	<dependency>
+    	<groupId>org.javassist</groupId>
+        <artifactId>javassist</artifactId>
+        <version>3.18.1-GA</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>5.1.18</version>
+    <scope>runtime</scope>
+	</dependency>
   </dependencies>
   <build>
     <plugins>
@@ -114,7 +103,16 @@
                 <target>1.6</target>
             </configuration>
         </plugin>
-        <plugin>
+     
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+ <!-- <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>2.10.1</version>
@@ -166,43 +164,15 @@
                     </excludes>
                 </instrumentation>
             </configuration>
-            <executions>
+	      	<executions>
                 <execution>
                     <goals>
                         <goal>clean</goal>
                     </goals>
                 </execution>
             </executions>
-         </plugin>  
+         </plugin>   -->
          
-         <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.3</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                </configuration>
-         </plugin>
-            
-         <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-         </plugin>
-         
-          
     </plugins>
     <resources>
        <resource>
